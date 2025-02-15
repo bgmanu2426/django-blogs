@@ -6,13 +6,9 @@ from .forms import BlogForm
 # Create your views here.
 
 
-def index(request):
-    return render(request, 'index.html')
-
-
 def ViweBlog(request):
     blogs = Blog.objects.all().order_by('-date_posted')
-    return render(request, 'blogs.html', {'blogs': blogs})
+    return render(request, 'index.html', {'blogs': blogs})
 
 
 def CreateBlog(request):
@@ -48,3 +44,7 @@ def deleteBlog(request, blog_id):
         blog.delete()
         return redirect('ViweBlog')
     return render(request, 'deleteblog.html', {'blog': blog})
+
+def getBlog(request, blog_id):
+    blog = get_object_or_404(Blog, pk=blog_id)
+    return render(request, 'blog.html', {'blog': blog})

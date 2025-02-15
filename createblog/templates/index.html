@@ -1,9 +1,47 @@
-{% extends "layout.html" %} {% block title %} Create Blog {% endblock title %}
-{% block content %} Wlcome to django
-<button
-  type="button"
-  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+{% extends "layout.html" %} {% load markdown_extras %} {% block title %} Blogs
+{% endblock title %} {%block content %}
+<div class="flex justify-between items-center mb-10">
+  <h1 class="text-3xl">Blogs</h1>
+  <a
+    href="{% url 'createBlog' %}"
+    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+  >
+    Create Blog
+  </a>
+</div>
+{% for blog in blogs %}
+<div
+  class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
 >
-  Default
-</button>
-{% endblock %}
+  <a href="{% url 'getBlog' blog.id %}">
+    <img class="rounded-t-lg" src="{{blog.photo.url}}" alt="..." />
+  </a>
+  <div class="p-5">
+    <a href="{% url 'getBlog' blog.id %}">
+      <h5
+        class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+      >
+        {{blog.title}}
+      </h5>
+    </a>
+    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+      {{blog.content|markdown|safe|slice:":100"}}
+    </p>
+    <div class="flex items-center justify-between pt-5">
+      <a
+        href="{% url 'editBlog' blog.id %}"
+        class="inline-flex items-center px-6 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        Edit
+      </a>
+      <a
+        href="{% url 'deleteBlog' blog.id %}"
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+      >
+        Delete
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endfor %} {% endblock %}
