@@ -21,7 +21,7 @@ def CreateBlog(request):
             return redirect('ViweBlog')
     else:
         form = BlogForm()
-    return render(request, 'createblog.html', {'form': form})
+    return render(request, 'blogform.html', {'form': form})
 
 
 def editBlog(request, blog_id):
@@ -35,7 +35,7 @@ def editBlog(request, blog_id):
             return redirect('ViweBlog')
     else:
         form = BlogForm(instance=blog)
-    return render(request, 'editblog.html', {'form': form})
+    return render(request, 'blogform.html', {'form': form})
 
 
 def deleteBlog(request, blog_id):
