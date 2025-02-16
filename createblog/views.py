@@ -15,36 +15,36 @@ def CreateBlog(request):
     if request.method == 'POST':
         form = BlogForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save(commit=False)
-            form.author = request.user
-            form.save()
-            return redirect('ViweBlog')
+            blog = form.save(commit=False)
+            blog.author = request.user
+            blog.save()
+            return redirect('allBlogs')
     else:
         form = BlogForm()
     return render(request, 'blogform.html', {'form': form})
 
 
-def editBlog(request, blog_id):
-    blog = get_object_or_404(Blog, pk=blog_id, user=request.user)
+def EditBlog(request, blog_id):
+    blog = get_object_or_404(Blog, pk=blog_id, author=request.user) # This line is the only difference between this function and the CreateBlog function.
     if request.method == 'POST':
         form = BlogForm(request.POST, request.FILES, instance=blog)
         if form.is_valid():
-            form.save(commit=False)
-            form.author = request.user
-            form.save()
-            return redirect('ViweBlog')
+            blog = form.save(commit=False)
+            blog.author = request.user
+            blog.save()
+            return redirect('allBlogs')
     else:
         form = BlogForm(instance=blog)
     return render(request, 'blogform.html', {'form': form})
 
 
-def deleteBlog(request, blog_id):
-    blog = get_object_or_404(Blog, pk=blog_id, user=request.user)
+def DeleteBlog(request, blog_id):
+    blog = get_object_or_404(Blog, pk=blog_id, author=request.user)
     if request.method == 'POST':
         blog.delete()
-        return redirect('ViweBlog')
+        return redirect('allBlogs')
     return render(request, 'deleteblog.html', {'blog': blog})
 
-def getBlog(request, blog_id):
+def GetBlog(request, blog_id):
     blog = get_object_or_404(Blog, pk=blog_id)
     return render(request, 'blog.html', {'blog': blog})
