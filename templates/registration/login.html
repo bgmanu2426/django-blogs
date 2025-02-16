@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
+  <div class="w-full max-w-md p-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-4">Login</h2>
+    <form method="post" class="space-y-7">
+      {% csrf_token %}
+      <div>
+        <label for="id_username" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+          Username
+        </label>
+        <input type="text" name="username" id="id_username"
+          value="{{ form.username.value|default_if_none:'' }}"
+          placeholder="Username"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+      </div>
+      <div>
+        <label for="id_password" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+          Password
+        </label>
+        <input type="password" name="password" id="id_password" placeholder="Password"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+      </div>
+      <button type="submit"
+        class="w-full mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300
+               font-medium rounded-lg py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        Login
+      </button>
+    </form>
+    <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
+      Don't have an account?
+      <a href="{% url 'registerUser' %}" class="text-blue-600 hover:underline dark:text-blue-400">
+        Register
+      </a>
+    </p>
+  </div>
+</div>
+{% endblock %}
